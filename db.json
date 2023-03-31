@@ -1,0 +1,20 @@
+{
+  "__dados__": [
+    {
+      "ID": 1,
+      "nome": "json-server",
+      "Sobrenome": "typicode",
+      "DtNascimento": "28/07/1970",
+      "Formacao": "Superior"
+    },
+
+    {
+      "ID": 2,
+      "nome": "json-server",
+      "Sobrenome": "typicode",
+      "DtNascimento": "28/07/1970",
+      "Formacao": "Superior"
+    }
+]
+}
+
