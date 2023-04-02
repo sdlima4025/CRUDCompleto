@@ -17,8 +17,18 @@ var dados = []
 
  //EDITAR
  function EditaRegistro(id) {
-  
- }
+  $("#modalRegistro").modal("show")
+
+  dados.forEach(function(item) {
+    if(item.ID == id) {
+      $("#hdID").val(item.ID)
+      $("#txtNome").val(item.Nome)
+      $("#txtSobrenome").val(item.Sobrenome)
+      $("#txtDtNascimento").val(item.DtNascimento.substr(6, 4) + "-" + item.DtNascimento.substr(3, 2) + "-" + item.DtNascimento.substr(0,2))
+      $("#txtFormacao").val(item.Formacao) 
+    }
+  })
+}
 
 
 function PopulaTabela() {
@@ -38,8 +48,8 @@ dados.forEach(function (item) {
       <td>${item.Sobrenome}</td>
       <td>${item.DtNascimento}</td>
       <td>${item.Formacao}</td>
-      <td><button type="button" class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
-      <td><button type="button" class="btn btn-danger" onclick="javascript:ApagaRegistro(${item.ID});"><i class="fa fa-trash"</button></td>
+      <td><button type = "button" class = "btn btn-primary" onclick = "javascript:EditaRegistro(${item.ID});"><i class="fa fa-edit"></i></button></td>
+      <td><button type = "button" class = "btn btn-danger" onclick = "javascript:ApagaRegistro(${item.ID});"><i class="fa fa-trash"</button></td>
     </tr>`)
     })
   }
@@ -57,31 +67,41 @@ $(function () {
 
   $("#btnSalvar").click(function() {
     // EVENTO CLICK DO BTN SALVAR
-
+    let _id = $("#hdID").val()
     let Nome = $("#txtNome").val()
     let Sobrenome = $("#txtSobrenome").val()
     let DtNascimento = new  Date($("#txtDtNascimento").val()).toLocaleDateString("pt-br", {timeZone: "UTC"})
     let Formacao = $("#txtFormacao").val()
 
-
-
-    let registro = {}
-
-    registro.Nome = Nome
-    registro.Sobrenome = Sobrenome
-    registro.DtNascimento = DtNascimento
-    registro.Formacao = Formacao
-
-    registro.ID = dados.length + 1
-
     // Função push adiciona um elemento ao array
-    dados.push(registro)
+    if(!_id || _id == "0") {
+      let registro = {}
+      registro.Nome = Nome
+      registro.Sobrenome = Sobrenome
+      registro.DtNascimento = DtNascimento
+      registro.Formacao = Formacao
+
+      registro.ID = dados.length + 1
+      dados.push(registro)
+    // no else a ação de edção
+    }else {
+      dados.forEach(function(item) {
+        if(item.ID == _id) {
+          item.Nome = Nome
+          item.Sobrenome = Sobrenome
+          item.DtNascimento = DtNascimento
+          item.Formacao = Formacao
+
+        }
+      })
+    }
 
     alert("Registro salvo com sucesso!")
     $("#modalRegistro").modal("hide")
 
 
     // Limpando os inputs
+    $("#hdID").val("0")
     $("#txtNome").val("")
     $("#txtSobrenome").val("")
     $("#txtDtNascimento").val("")
